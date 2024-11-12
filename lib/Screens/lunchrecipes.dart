@@ -40,7 +40,7 @@ class LunchRecipes extends StatelessWidget {
               recipeName: recipe.recipeName,
               categoryName: recipe.selectedCategory,
               cookingTime: recipe.cookingTime.toString(),
-              imagePath: recipe.image,
+              imagePath: recipe.imagePath,
             );
           },
         ));

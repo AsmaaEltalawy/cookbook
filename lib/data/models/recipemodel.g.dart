@@ -13,7 +13,7 @@ class RecipeModelAdapter extends TypeAdapter<RecipeModel> {
     };
     return RecipeModel(
       recipeName: fields[0] as String,
-      image: fields[1] as String,
+      imagePath: fields[1] as String,
       preparationTime: fields[2] as int,
       cookingTime: fields[3] as int,
       instructions: fields[4] as String,
@@ -29,7 +29,7 @@ class RecipeModelAdapter extends TypeAdapter<RecipeModel> {
       ..writeByte(0)
       ..write(obj.recipeName)
       ..writeByte(1)
-      ..write(obj.image)
+      ..write(obj.imagePath)
       ..writeByte(2)
       ..write(obj.preparationTime)
       ..writeByte(3)

@@ -6,13 +6,13 @@ class RecipeCard extends StatelessWidget {
   final String recipeName;
   final String categoryName;
   final String cookingTime;
-  final String? imagePath; // تغيير اسم المتغير ليتوافق مع الصورة المحلية
+  final String imagePath;
 
   const RecipeCard({
     required this.recipeName,
     required this.categoryName,
     required this.cookingTime,
-    this.imagePath,
+    required this.imagePath,
   });
 
   @override
@@ -24,17 +24,17 @@ class RecipeCard extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            image: imagePath != null && imagePath!.isNotEmpty
-                ? DecorationImage(
-                    image: FileImage(File(imagePath!)),
+            image: DecorationImage(
+                    image: FileImage(File(imagePath)),
                       fit: BoxFit.cover,
                   )
-                : null,
+
           ),
+
           child: Container(
             padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.4), // خلفية شفافة فوق الصورة
+              color: Colors.black.withOpacity(0.3),
               borderRadius: BorderRadius.circular(16),
             ),
             child: Column(

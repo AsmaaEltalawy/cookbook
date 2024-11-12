@@ -1,8 +1,6 @@
-import 'dart:io';
 import 'package:cookbook/provider/recipeprovider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:image_picker/image_picker.dart'; // إضافة المكتبة
 
 class AddRecipe extends StatelessWidget {
   AddRecipe({super.key});
@@ -16,18 +14,6 @@ class AddRecipe extends StatelessWidget {
 
   // GlobalKey for the Form widget
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-  // Function to open gallery and pick an image
-  Future<void> _pickImage(BuildContext context) async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-
-    if (image != null) {
-      // Update the image path in the provider
-      var provider = Provider.of<RecipeProvider>(context, listen: false);
-      provider.updateImagePath(image.path);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,10 +105,13 @@ class AddRecipe extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 GestureDetector(
-                  onTap: () => provider.pickImageFromGallery(), // عند النقر يفتح الجاليري
+                  onTap: () => provider.pickImageFromGallery(),
+                  // عند النقر يفتح الجاليري
                   child: AbsorbPointer(
                     child: customTextField(
-                      provider.imagePath == null ? 'Tap to select an image' : 'Image selected',
+                      provider.imagePath == null
+                          ? 'Tap to select an image'
+                          : 'Image selected',
                       TextEditingController(text: provider.imagePath ?? ''),
                     ),
                   ),
@@ -136,7 +125,8 @@ class AddRecipe extends StatelessWidget {
                       color: Color(0xFFD2691E)),
                 ),
                 const SizedBox(height: 8),
-                customTextField('Enter preparation time (e.g., 15 mins)', provider.preTimeController),
+                customTextField('Enter preparation time (e.g., 15 mins)',
+                    provider.preTimeController),
                 const SizedBox(height: 10),
                 const Text(
                   'Cooking Time',
@@ -146,7 +136,8 @@ class AddRecipe extends StatelessWidget {
                       color: Color(0xFFD2691E)),
                 ),
                 const SizedBox(height: 8),
-                customTextField('Enter cooking time (e.g., 30 mins)', provider.cookingTimeController),
+                customTextField('Enter cooking time (e.g., 30 mins)',
+                    provider.cookingTimeController),
                 const SizedBox(height: 10),
                 const Text(
                   'Ingredients',
@@ -156,7 +147,8 @@ class AddRecipe extends StatelessWidget {
                       color: Color(0xFFD2691E)),
                 ),
                 const SizedBox(height: 8),
-                customTextField('Enter ingredients, separated by commas', provider.ingredientsController),
+                customTextField('Enter ingredients, separated by commas',
+                    provider.ingredientsController),
                 const SizedBox(height: 10),
                 const Text(
                   'Instructions',
@@ -166,7 +158,8 @@ class AddRecipe extends StatelessWidget {
                       color: Color(0xFFD2691E)),
                 ),
                 const SizedBox(height: 8),
-                customTextField('Enter step-by-step instructions', provider.instructionsController),
+                customTextField('Enter step-by-step instructions',
+                    provider.instructionsController),
                 const SizedBox(height: 32),
                 Center(
                   child: SizedBox(
@@ -182,7 +175,9 @@ class AddRecipe extends StatelessWidget {
                         } else {
                           // If form is invalid, show a message
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Please fill all fields correctly.')),
+                            const SnackBar(
+                                content:
+                                    Text('Please fill all fields correctly.')),
                           );
                         }
                       },
@@ -240,4 +235,3 @@ Widget customTextField(String hint, controller) {
     },
   );
 }
-

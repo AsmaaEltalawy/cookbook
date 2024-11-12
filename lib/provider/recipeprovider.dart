@@ -1,31 +1,26 @@
-import 'dart:io';
-
 import 'package:cookbook/data/models/recipemodel.dart';
 import 'package:cookbook/data/recipesdatabase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
+
 class RecipeProvider with ChangeNotifier {
   var recipesDatabase = RecipeDataBase();
   String selectedCategory = '';
   List<RecipeModel> recipeList = [];
-  TextEditingController imgController = TextEditingController();
+
   TextEditingController nameController = TextEditingController();
   TextEditingController preTimeController = TextEditingController();
   TextEditingController cookingTimeController = TextEditingController();
   TextEditingController instructionsController = TextEditingController();
   TextEditingController ingredientsController = TextEditingController();
-  String? imagePath;
+  String imagePath = '';
 
-  // String? get selectedImagePath => imagePath;
-
-
-
-  // تحديث دالة `pickImageFromGallery` لتخزين المسار كـ String
   Future<void> pickImageFromGallery() async {
     final pickedFile =
-    await ImagePicker().pickImage(source: ImageSource.gallery);
+        await ImagePicker().pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       imagePath = pickedFile.path;
+      print('IMAGE PATH : $imagePath');
       notifyListeners();
     }
   }
@@ -46,17 +41,10 @@ class RecipeProvider with ChangeNotifier {
   }
 
   void saveRecipe() {
-    if (nameController.text.isEmpty ||
-        preTimeController.text.isEmpty ||
-        cookingTimeController.text.isEmpty) {
-      print("Please fill in all fields");
-      return;
-    }
-
     var newRecipe = RecipeModel(
       selectedCategory: selectedCategory,
       recipeName: nameController.text,
-      image: imagePath ?? '',
+      imagePath: imagePath,
       preparationTime: _parseTime(preTimeController.text),
       cookingTime: _parseTime(cookingTimeController.text),
       instructions: instructionsController.text,
@@ -75,6 +63,7 @@ class RecipeProvider with ChangeNotifier {
     ingredientsController.clear();
     preTimeController.clear();
     selectedCategory = "";
+    imagePath='' ;
   }
 
   int _parseTime(String timeText) {

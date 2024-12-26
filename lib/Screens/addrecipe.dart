@@ -1,5 +1,6 @@
 import 'package:cookbook/provider/recipeprovider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class AddRecipe extends StatelessWidget {
@@ -106,13 +107,30 @@ class AddRecipe extends StatelessWidget {
                 const SizedBox(height: 8),
                 GestureDetector(
                   onTap: () => provider.pickImageFromGallery(),
-                  // عند النقر يفتح الجاليري
                   child: AbsorbPointer(
-                    child: customTextField(
-                      provider.imagePath == null
-                          ? 'Tap to select an image'
-                          : 'Image selected',
-                      TextEditingController(text: provider.imagePath ?? ''),
+                    child: TextFormField(
+                      controller:
+                          TextEditingController(text: provider.imagePath ?? ''),
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 16, horizontal: 12),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide.none,
+                        ),
+                        hintText: (provider.imagePath == null ||
+                                provider.imagePath!.isEmpty)
+                            ? 'Tap to select an image (optional)'
+                            : 'Image selected',
+                        hintStyle: TextStyle(color: Colors.grey.shade500),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: const BorderSide(
+                              color: Color(0xFFD2691E), width: 2),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -125,7 +143,7 @@ class AddRecipe extends StatelessWidget {
                       color: Color(0xFFD2691E)),
                 ),
                 const SizedBox(height: 8),
-                customTextField('Enter preparation time (e.g., 15 mins)',
+                numericTextField('Enter preparation time (e.g., 15 mins)',
                     provider.preTimeController),
                 const SizedBox(height: 10),
                 const Text(
@@ -136,7 +154,7 @@ class AddRecipe extends StatelessWidget {
                       color: Color(0xFFD2691E)),
                 ),
                 const SizedBox(height: 8),
-                customTextField('Enter cooking time (e.g., 30 mins)',
+                numericTextField('Enter cooking time (e.g., 30 mins)',
                     provider.cookingTimeController),
                 const SizedBox(height: 10),
                 const Text(
@@ -230,6 +248,38 @@ Widget customTextField(String hint, controller) {
     validator: (value) {
       if (value == null || value.isEmpty) {
         return 'This field cannot be empty';
+      }
+      return null;
+    },
+  );
+}
+
+
+Widget numericTextField(String hint, TextEditingController controller) {
+  return TextFormField(
+    controller: controller,
+    keyboardType: TextInputType.number,
+    inputFormatters: [FilteringTextInputFormatter.digitsOnly], // Allow digits only
+    decoration: InputDecoration(
+      filled: true,
+      fillColor: Colors.white,
+      contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide.none,
+      ),
+      hintText: hint,
+      hintStyle: TextStyle(color: Colors.grey.shade500),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(15),
+        borderSide: const BorderSide(color: Color(0xFFD2691E), width: 2),
+      ),
+    ),
+    validator: (value) {
+      if (value == null || value.isEmpty) {
+        return 'This field cannot be empty';
+      } else if (int.tryParse(value) == null) {
+        return 'Please enter a valid number';
       }
       return null;
     },

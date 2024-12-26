@@ -13,7 +13,7 @@ class RecipeProvider with ChangeNotifier {
   TextEditingController cookingTimeController = TextEditingController();
   TextEditingController instructionsController = TextEditingController();
   TextEditingController ingredientsController = TextEditingController();
-  String imagePath = '';
+  String? imagePath;
 
   Future<void> pickImageFromGallery() async {
     final pickedFile =
@@ -25,11 +25,6 @@ class RecipeProvider with ChangeNotifier {
     }
   }
 
-  void updateImagePath(String path) {
-    imagePath = path;
-    notifyListeners();
-  }
-
   void updateSelectedCategory(String newCategory) {
     selectedCategory = newCategory;
     notifyListeners();
@@ -37,6 +32,7 @@ class RecipeProvider with ChangeNotifier {
 
   void loadRecipes() {
     recipeList = recipesDatabase.loadRecipes();
+
     notifyListeners();
   }
 
@@ -56,6 +52,12 @@ class RecipeProvider with ChangeNotifier {
     clearControllers();
   }
 
+  void deleteRecipe(int index) {
+    recipesDatabase.delete(index);
+    recipeList.removeAt(index);
+    notifyListeners();
+  }
+
   void clearControllers() {
     nameController.clear();
     cookingTimeController.clear();
@@ -63,7 +65,15 @@ class RecipeProvider with ChangeNotifier {
     ingredientsController.clear();
     preTimeController.clear();
     selectedCategory = "";
-    imagePath='' ;
+    imagePath = '';
+  }
+
+  List<RecipeModel> searchRecipes(String query) {
+    return recipeList
+        .where((recipe) => recipe.recipeName
+            .toLowerCase()
+            .contains(query.toLowerCase())) // البحث حسب اسم الوصفة
+        .toList();
   }
 
   int _parseTime(String timeText) {

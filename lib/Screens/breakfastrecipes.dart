@@ -9,6 +9,7 @@ class BreakFastRecipes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var recipeProvider = Provider.of<RecipeProvider>(context);
+    recipeProvider.loadRecipes();
     var breakfastRecipes = recipeProvider.getRecipesByCategory("Breakfast");
     return Scaffold(
       backgroundColor: const Color(0xffFFF8DC),
@@ -40,6 +41,9 @@ class BreakFastRecipes extends StatelessWidget {
             categoryName: recipe.selectedCategory,
             cookingTime: recipe.cookingTime.toString(),
             imagePath: recipe.imagePath,
+            instructions: recipe.instructions,
+            ingredients: recipe.ingredients,
+            selectedCategory: recipe.selectedCategory, index: index,
           );
         },
       ),

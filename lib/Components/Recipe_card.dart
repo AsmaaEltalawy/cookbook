@@ -6,14 +6,22 @@ class RecipeCard extends StatelessWidget {
   final String recipeName;
   final String categoryName;
   final String cookingTime;
-  final String imagePath;
+  final String? imagePath;
+  final String instructions;
+  final String ingredients;
+  final String selectedCategory;
+  final int index;
 
-  const RecipeCard({
-    required this.recipeName,
-    required this.categoryName,
-    required this.cookingTime,
-    required this.imagePath,
-  });
+  const RecipeCard(
+      {super.key,
+      required this.recipeName,
+      required this.categoryName,
+      required this.cookingTime,
+      this.imagePath,
+      required this.instructions,
+      required this.ingredients,
+      required this.selectedCategory,
+      required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -23,14 +31,11 @@ class RecipeCard extends StatelessWidget {
         padding: const EdgeInsets.all(15.0),
         child: Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            image: DecorationImage(
-                    image: FileImage(File(imagePath)),
-                      fit: BoxFit.cover,
-                  )
-
-          ),
-
+              borderRadius: BorderRadius.circular(18),
+              image: DecorationImage(
+                image: FileImage(File(imagePath!)),
+                fit: BoxFit.cover,
+              )),
           child: Container(
             padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
@@ -75,7 +80,20 @@ class RecipeCard extends StatelessWidget {
                   alignment: Alignment.bottomRight,
                   child: TextButton(
                     onPressed: () {
-                      // يمكنك إضافة التنقل هنا عند الضغط على زر 'Read More'
+                      Navigator.pushNamed(
+                        context,
+                        '/recipe_details',
+                        arguments: {
+                          'recipeName': recipeName,
+                          'categoryName': categoryName,
+                          'cookingTime': cookingTime,
+                          'imagePath': imagePath,
+                          'instructions': instructions,
+                          'ingredients': ingredients,
+                          'Category': selectedCategory,
+                          'index': index,
+                        },
+                      );
                     },
                     style: TextButton.styleFrom(
                       backgroundColor: Colors.orange,

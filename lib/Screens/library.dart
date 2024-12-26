@@ -1,4 +1,5 @@
 import 'package:cookbook/Components/categoryCard.dart';
+import 'package:cookbook/Screens/recipesearch.dart';
 import 'package:flutter/material.dart';
 
 class Library extends StatelessWidget {
@@ -28,7 +29,12 @@ class Library extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: RecipeSearch(),
+              );
+            },
             icon: const Icon(
               Icons.search,
               color: Colors.white,

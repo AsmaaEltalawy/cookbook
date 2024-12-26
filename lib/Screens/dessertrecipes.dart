@@ -9,6 +9,7 @@ class DessertRecipes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var recipeProvider = Provider.of<RecipeProvider>(context);
+    recipeProvider.loadRecipes();
     var dessertRecipes = recipeProvider.getRecipesByCategory("Dessert");
 
     return Scaffold(
@@ -41,6 +42,9 @@ class DessertRecipes extends StatelessWidget {
             categoryName: recipe.selectedCategory,
             cookingTime: recipe.cookingTime.toString(),
             imagePath: recipe.imagePath,
+            instructions: recipe.instructions,
+            ingredients: recipe.ingredients,
+            selectedCategory: recipe.selectedCategory, index: index,
           );
         },
       ),

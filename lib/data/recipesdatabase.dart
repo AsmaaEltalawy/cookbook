@@ -13,6 +13,15 @@ class RecipeDataBase {
   }
 
   void delete(int index) {
-    box.delete(index);
+    box.deleteAt(index); // Deletes recipe by index
+  }
+
+  List<RecipeModel> searchRecipes(String query) {
+    final recipes = box.values.toList();
+    return recipes
+        .where((recipe) =>
+    recipe.recipeName.toLowerCase().contains(query.toLowerCase()) ||
+        recipe.ingredients.toLowerCase().contains(query.toLowerCase()))
+        .toList();
   }
 }

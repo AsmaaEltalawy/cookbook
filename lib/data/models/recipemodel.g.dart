@@ -13,7 +13,7 @@ class RecipeModelAdapter extends TypeAdapter<RecipeModel> {
     };
     return RecipeModel(
       recipeName: fields[0] as String,
-      imagePath: fields[1] as String,
+      imagePath: fields[1] as String?,
       preparationTime: fields[2] as int,
       cookingTime: fields[3] as int,
       instructions: fields[4] as String,
@@ -23,9 +23,10 @@ class RecipeModelAdapter extends TypeAdapter<RecipeModel> {
   }
 
   @override
+  @override
   void write(BinaryWriter writer, RecipeModel obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(7)
       ..writeByte(0)
       ..write(obj.recipeName)
       ..writeByte(1)
@@ -37,8 +38,11 @@ class RecipeModelAdapter extends TypeAdapter<RecipeModel> {
       ..writeByte(4)
       ..write(obj.instructions)
       ..writeByte(5)
-      ..write(obj.ingredients);
+      ..write(obj.ingredients)
+      ..writeByte(6)
+      ..write(obj.selectedCategory);
   }
+
 
   @override
   int get hashCode => typeId.hashCode;

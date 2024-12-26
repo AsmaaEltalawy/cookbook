@@ -8,7 +8,7 @@ class RecipeModel extends HiveObject {
   final String recipeName;
 
   @HiveField(1)
-  final String imagePath;
+  final String? imagePath;
 
   @HiveField(2)
   final int preparationTime;
@@ -27,7 +27,7 @@ class RecipeModel extends HiveObject {
   RecipeModel(
       {required this.selectedCategory,
       required this.recipeName,
-      required this.imagePath,
+      this.imagePath,
       required this.preparationTime,
       required this.cookingTime,
       required this.instructions,
